@@ -20,10 +20,22 @@
     --danger: #dc3545;
     --light: #f8f9fa;
     --dark: #212529;
+    font-size: 16px;
 }
 
 *, ::after, ::before {
     box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+a{
+    text-decoration: none;
+    color: var(--indigo);
+}
+a:hover{
+    padding-bottom: 2px;
+    border-bottom: 1px solid var(--indigo);
 }
 
 [type=button]:not(:disabled), [type=reset]:not(:disabled), [type=submit]:not(:disabled), button:not(:disabled) {
@@ -36,6 +48,9 @@ body {
     font-weight: 400;
     line-height: 1.5;
     color: #212529;
+    min-height: 100%;
+    min-height: 100vh;
+    margin: 0;
     font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
 }
 
@@ -336,6 +351,174 @@ div.slide {
     .table-div table {
         border-collapse: separate;
         border-spacing: 10px 10px;
+    }
+}
+
+/**********************LOGIN******************/
+
+section.login-section {
+    background: rgba(10, 10, 26, .8);
+    width: 100%;
+    padding: 0;
+    margin: 0;
+    min-height: 100%;
+    min-height: 100vh;
+    position: relative;
+    overflow: auto;
+}
+
+div.login-container {
+    padding: 1.4em;
+    border: 0;
+    max-width: 400px;
+    margin: 10% auto 0;
+    position: relative;
+    text-align: center;
+    background: 0 0;
+    border-radius: 3px;
+}
+
+.login-form {
+    text-align: center;
+}
+
+.login-form .input-container {
+    position: relative
+}
+
+.login-form label {
+    position: absolute;
+    left: 10px;
+    z-index: 2;
+    font-size: 11px;
+    font-weight: 700;
+    top: 8px;
+    text-transform: uppercase;
+    color: #777;
+    transition: left .1s ease-in-out;
+}
+
+.login-form .input-container input {
+    width: 100%;
+    font: 100 22px;
+    border-radius: 0;
+    border: 0;
+    padding: 30px 40px 11px 11px;
+    font-weight: 400;
+    font-size: 16px;
+    outline: none;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: rgba(201, 224, 253, .8);
+    background: rgba(255, 255, 255, .068);
+    border-bottom: 1px solid rgba(255, 255, 255, .068);
+    color: #fff;
+    transition: border-color .3s linear;
+    transition: padding-left .1s ease-in-out;
+    -webkit-transition: padding-left .1s ease-in-out;
+    -moz-transition: padding-left .1s ease-in-out;
+    -ms-transition: padding-left .1s ease-in-out;
+    -o-transition: padding-left .1s ease-in-out;
+}
+
+.login-form .input-container input:focus {
+    padding-left: 70px;
+    color: #eee;
+    box-shadow: 0 0 0;
+    border-bottom: 1px solid #3EA651;
+    z-index: 1
+}
+
+
+div.button-container, div.have-acct {
+    margin-top: 0.7em;
+    color: var(--info);
+    font-size: 0.9em;
+}
+
+.btn-submit {
+    border-radius: 3px;
+    width: 100%;
+    padding: 13px 40px 13px 13px;
+    color: #fff;
+    -webkit-font-smoothing: antialiased;
+    -webkit-tap-highlight-color: rgba(201, 224, 253, .8);
+    transition: background .3s linear;
+    background: #40A953;
+    position: relative;
+    min-height: 50px;
+    font-size: 0.9em;
+    font-weight: 100;
+}
+
+div.loader {
+    color: rgba(255, 255, 255, .9);
+    display: none;
+    position: absolute;
+    top: 7px;
+    left: 50%;
+    margin: 0;
+    text-align: center;
+    z-index: 1000;
+    -ms-transform: translateX(-50%) translateY(-50%);
+    transform: translateX(-50%) translateY(-50%);
+}
+
+div.loader:before {
+    width: 2.2585em;
+    height: 2.2585em;
+    margin: 0 0 0 -1.12925em;
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 50%;
+    border-radius: 500rem;
+    border: .2em solid rgba(255, 255, 255, .2);
+}
+
+div.loader:after {
+    width: 2.2585em;
+    height: 2.2585em;
+    margin: 0 0 0 -1.12925em;
+    position: absolute;
+    content: '';
+    top: 0;
+    left: 50%;
+    animation: loader .6s linear;
+    animation-iteration-count: infinite;
+    border-radius: 500rem;
+    border-color: #fff transparent transparent;
+    border-style: solid;
+    border-width: .2em;
+    box-shadow: 0 0 0 1px transparent;
+    box-sizing: inherit
+}
+
+/* 
+.login-form .input-container input:focus~label {
+    color: #aaa;
+    left: 70px
+}
+
+.login-form .input-container input:focus~i {
+    width: 60px
+} */
+
+.login-form .input-container .input-icon {
+    overflow: hidden;
+    width: 0;
+    height: 100%;
+    background-color: rgba(255, 255, 255, .1);
+    color: #3EA651;
+    position: absolute;
+    transition: width .1s ease-in-out;
+    font-size: 28px;
+    line-height: 67px
+}
+
+@media(max-width: 768px) {
+    div.login-container {
+        margin: 10% auto;
+        top: 0;
     }
 }
 
