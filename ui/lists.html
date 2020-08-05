@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <link rel="stylesheet" href="css/bootstrap-4.3.1-dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/styles.css">
+    <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    <title>todo list</title>
+</head>
+
+<body>
+
+    <header class="header">
+        <h2 class><i class="fa fa-plug"></i> todo</h2>
+    </header>
+
+    <main>
+        <div class="form-wrapper">
+            <form class="task-form">
+                <input type="text" data-task-value id="task" class="form-grp" aria-label="task" placeholder="Task"
+                    autocomplete="off">
+
+                <textarea type="text" data-_id id="desc" class="form-grp" aria-label="Description"
+                    placeholder="Description" autocomplete="off"></textarea>
+
+                <!-- <div class="row">
+                <div class="col">
+                    <input type="date" data-seller-value id="seller" class="form-control m-0" aria-label="date"
+                        placeholder="Seller" autocomplete="off">
+                </div>
+                <div class="col">
+                    <input type="text" data-price-value id="price" class="form-control m-0" aria-label="Price"
+                        placeholder="Price" autocomplete="off">
+                </div>
+            </div> -->
+            </form>
+        </div>
+
+        <!-- create, update, read and delete button -->
+        <div class="btn-div">
+            <button type="button" class="btn btn-create" id="btn-create">Create</button>
+            <!-- <button type="button" class="btn btn-primary" id="btn-get">Hide items</button> -->
+            <button type="button" class="btn btn-update" id="btn-update">Update</button>
+            <button type="button" class="btn btn-delete" id="btn-delete">Clear</button>
+        </div>
+
+
+        <div class="table-div">
+            <table>
+                <thead>
+                    <tr>
+                        <th scope="col">Task</th>
+                        <th scope="col">Edit</th>
+                        <th scope="col">Delete</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr class="data-row">
+                        <td class="data task" data-title="Task" >Go to market and make a purchase of Lorem ipsum dolor sit amet, consectetur adipisicing
+                            elit. Aspernatur inventore possimus tempora, sed libero at quia saepe enim expedita nihil
+                            voluptatum est tenetur amet aliquam quae vitae dolores sapiente nisi.</td>
+                        <td class="data util" data-btn><i class=" fa fa-edit btnedit"></i> </td>
+                        <td class="data util" data-btn><i class=" fa fa-trash btndelete"></i></td>
+                    </tr>
+                    <tr class="data-row">
+                        <td class="data task" data-title="Task" >Go to market and make a purchase of Lorem ipsum dolor sit amet, consectetur adipisicing
+                            elit. Aspernatur inventore possimus tempora, sed libero at quia saepe enim expedita nihil
+                            voluptatum est tenetur amet aliquam quae vitae dolores sapiente nisi.</td>
+                        <td class="data util" ><i class=" fa fa-edit btnedit"></i> </td>
+                        <td class="data util"><i class=" fa fa-trash btndelete"></i></td>
+                    </tr>
+                    <tr class="data-row">
+                        <td class="data task" data-title="Task" >Go to market and make a purchase of Lorem ipsum dolor sit amet, consectetur adipisicing
+                            elit. Aspernatur inventore possimus tempora, sed liber.</td>
+                        <td class="data util"><i class=" fa fa-edit btnedit"></i> </td>
+                        <td class="data util" ><i class=" fa fa-trash btndelete"></i></td>
+                    </tr>
+                   
+                  
+                    
+                </tbody>
+            </table>
+
+        </div>
+
+        <div class="container text-center no-item " id="no-item">
+            <div>
+                No item in todo...
+            </div>
+        </div>
+
+        <div class="w-100 btn-success success"></div>
+        <div class="w-100 btn-danger failure"></div>
+
+
+    </main>
+
+    <script src="./bootstrap-4.3.1-dist/js/jquery-3.3.1.slim.min.js"></script>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+        crossorigin="anonymous"></script>
+    <script src="./bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+
+    <script src="../js/main.js"></script>
+</body>
+
+</html>
