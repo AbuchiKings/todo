@@ -10,7 +10,9 @@ const util = require('util');
 dotenv.config();
 const SECRET = process.env.JWT_KEY;
 const pbkd = util.promisify(crypto.pbkdf2Sync);
-let iterations, hashBytes, saltBytes;
+const iterations = parseInt(process.env.ITERATIONS, 10);
+const hashBytes = parseInt(process.env.HASH_BYTES, 10);
+const saltBytes = parseInt(process.env.SALT_BYTES);
 
 
 const auth = {
@@ -69,7 +71,7 @@ const auth = {
         return [salt, hash].join('$');
     },
 
-    verifyPassword: async (password, dbPassword) => {
+    isPassword: async (password, dbPassword) => {
         const originalHash = dbPassword.split('$')[1];
         const salt = dbPassword.split('$')[0];
         const hash = await pbkd(password, salt, iterations, hashBytes, 'sha512').toString('hex');
@@ -80,4 +82,4 @@ const auth = {
 
 }
 
-export default auth;
+module.exports = auth;

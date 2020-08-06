@@ -6,4 +6,4 @@ function errorHandler(status, message) {
   throw err;
 }
 
-export default errorHandler;
+module.exports = errorHandler;

@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const validator = require('validator');
-const bcrypt = require('bcryptjs');
+const auth = require('../middleware/auth')
 
 const userSchema = mongoose.Schema({
     fullname: {
@@ -11,7 +11,12 @@ const userSchema = mongoose.Schema({
     email: {
         type: String,
         unique: [true, 'This email already exists!'],
-        validate: [validator.isEmail, 'Please provide a valid email address'],
+        validate: {
+            validator: function (value) {
+                return validator.isEmail(value);
+            },
+            message: 'Please provide a valid email address'
+        },
         lowercase: true
     },
     password: {
@@ -28,21 +33,17 @@ const userSchema = mongoose.Schema({
                 return value === this.password;
             },
             message: 'Passwords do not match'
-        }
+        },
+        select: false
     }
 });
 
 userSchema.pre('save', async function (next) {
     if (!this.isModified('password')) return next();
-    this.password = await bcrypt.hash(this.password, 12);
+    this.password = await auth.hashPassword(this.password);
     this.confirmPassword = undefined;
     next();
 });
-
-
-userSchema.methods.verifyPassword = async function (enteredPlainPassword, encryptedPasswordInDb) {
-    return await bcrypt.compare(enteredPlainPassword, encryptedPasswordInDb);
-}
 
 
 module.exports = mongoose.model('User', userSchema);
