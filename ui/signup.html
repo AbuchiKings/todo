@@ -13,26 +13,34 @@
 
 <body>
 
-    <section class="login-section">
+    <section class="signin-section">
 
         <div class="bgc"></div>
-        <div class="login-container">
-            <h2 class><i class="fa fa-plug"></i><span class="to">  to</span>do</h2>
+        <div class="signin-container">
+                <h2 class><i class="fa fa-plug"></i><span class="to">  to</span>do</h2>
             <form action="" class="login-form">
+                <div class="input-container">
+                    <label for="fullname"> FULL NAME</label>
+                    <input type="fullname" required class="auth-grp fullname" id="fullname" name="fullname">
+                </div>
                 <div class="input-container">
                     <label for="email"> EMAIL ADDRESS</label>
                     <input type="email" required class="auth-grp email" id="email" name="email">
                 </div>
                 <div class="input-container">
-                    <label for="password">PASSWORD</label>
+                    <label for="email">PASSWORD</label>
                     <input type="password" required class="auth-grp password" id="password" name="password">
                 </div>
+                <div class="input-container">
+                    <label for="email">CONFIRM PASSWORD</label>
+                    <input type="confirmPassword" required class="auth-grp confirmPassword" id="confirmPassword" name="confirmPassword">
+                </div>
                 <div class="have-acct">
-                    <p>New here? <a href="./signup.html"> Create account</a></p>
+                    <p>Already have an account? <a href="./index.html">Sign in</a></p>
                 </div>
                 <div class="loader"></div>
                 <div class="button-container">
-                    <button type="submit" class="btn-submit .btn" id="login">Log In</button>
+                    <button type="submit" class="btn-submit .btn" id="login">Sign Up</button>
                 </div>
             </form>
         </div>

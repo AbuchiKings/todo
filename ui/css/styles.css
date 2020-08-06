@@ -29,11 +29,12 @@
     padding: 0;
 }
 
-a{
+a {
     text-decoration: none;
     color: var(--indigo);
 }
-a:hover{
+
+a:hover {
     padding-bottom: 2px;
     border-bottom: 1px solid var(--indigo);
 }
@@ -47,11 +48,15 @@ body {
     font-size: 1rem;
     font-weight: 400;
     line-height: 1.5;
+    background: rgba(10, 10, 26, .8);
+    background-image: url(../images/bgc3.jpg);
+    background-size: cover;
     color: #212529;
     min-height: 100%;
     min-height: 100vh;
     margin: 0;
     font-family: "Segoe UI", Roboto, "Helvetica Neue", Arial, "Noto Sans", sans-serif;
+    z-index: -3;
 }
 
 .header {
@@ -64,8 +69,8 @@ body {
 }
 
 .header h2 {
-    color: #17a2b8;
-    background-color: #f8f9fa;
+    color: var(--success);
+    /* background-color: #f8f9fa; */
     font-size: 2rem;
     padding-top: 1.5rem;
     padding-bottom: 1.5rem;
@@ -73,6 +78,10 @@ body {
     font-weight: 500;
     line-height: 1.2;
     margin-top: 0;
+}
+
+.to {
+    color: var(--indigo);
 }
 
 main {
@@ -187,6 +196,10 @@ main {
     background-color: #fff;
 }
 
+.table-div th {
+    background-color: #f8f9fa;
+}
+
 tr.data-row:nth-child(even) {
     background-color: var(--white);
 }
@@ -221,7 +234,7 @@ td.util {
 }
 
 table .btnedit {
-    color: var(--yellow);
+    color: var(--success);
     cursor: pointer;
     font-size: 2rem;
 }
@@ -356,8 +369,15 @@ div.slide {
 
 /**********************LOGIN******************/
 
-section.login-section {
-    background: rgba(10, 10, 26, .8);
+.bgc {
+    position: absolute;
+    z-index: -2;
+    min-height: 100vh;
+    width: 100%;
+}
+
+section.login-section, section.signin-section {
+    /* //background: #f8f9fa; */
     width: 100%;
     padding: 0;
     margin: 0;
@@ -365,28 +385,46 @@ section.login-section {
     min-height: 100vh;
     position: relative;
     overflow: auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
 }
 
-div.login-container {
-    padding: 1.4em;
+div.login-container, div.signin-container {
     border: 0;
-    max-width: 400px;
-    margin: 10% auto 0;
+    width: 50%;
+    max-width: 370px;
+    min-width: 280px;
+    margin: -5% auto 0;
     position: relative;
+    top: 50%;
     text-align: center;
     background: 0 0;
     border-radius: 3px;
 }
 
-.login-form {
+div.login-container h2, div.signin-container h2 {
+    margin-bottom: 2rem;
+    color: var(--indigo);
+    font-weight: 500;
+    line-height: 1.2;
+    font-size: 2rem;
+}
+
+div.login-container h2 .to, div.signin-container h2 .to {
+    margin-bottom: 2rem;
+    color: var(--success);
+}
+
+.login-form, .signin-form {
     text-align: center;
 }
 
-.login-form .input-container {
+.login-form .input-container, .signin-form .input-container {
     position: relative
 }
 
-.login-form label {
+.login-form label, .signin-form label {
     position: absolute;
     left: 10px;
     z-index: 2;
@@ -398,7 +436,7 @@ div.login-container {
     transition: left .1s ease-in-out;
 }
 
-.login-form .input-container input {
+.input-container input {
     width: 100%;
     font: 100 22px;
     border-radius: 0;
@@ -420,34 +458,48 @@ div.login-container {
     -o-transition: padding-left .1s ease-in-out;
 }
 
-.login-form .input-container input:focus {
+.input-container input:focus {
     padding-left: 70px;
     color: #eee;
     box-shadow: 0 0 0;
-    border-bottom: 1px solid #3EA651;
+    border-bottom: 1px solid #f8f9fa;
     z-index: 1
 }
 
-
 div.button-container, div.have-acct {
     margin-top: 0.7em;
-    color: var(--info);
+    color: #f8f9fa;
     font-size: 0.9em;
 }
 
 .btn-submit {
-    border-radius: 3px;
     width: 100%;
     padding: 13px 40px 13px 13px;
     color: #fff;
-    -webkit-font-smoothing: antialiased;
+    /*-webkit-font-smoothing: antialiased;
     -webkit-tap-highlight-color: rgba(201, 224, 253, .8);
     transition: background .3s linear;
-    background: #40A953;
-    position: relative;
+    */
+    background: var(--success);
+    border-color: var(--success);
     min-height: 50px;
-    font-size: 0.9em;
-    font-weight: 100;
+    font-size: 1em;
+    font-weight: 300;
+    outline: none;
+    transition: background, color 0.4s ease-in-out;
+    -webkit-transition: background, color 0.4s ease-in-out;
+    -moz-transition: background, color 0.4s ease-in-out;
+    -ms-transition: background, color 0.4s ease-in-out;
+    -o-transition: background, color 0.4s ease-in-out;
+}
+
+.btn-submit:focus {
+    box-shadow: 0 0 0 0.2rem rgba(72, 180, 97, .5);
+}
+
+.btn-submit:hover {
+    background: #f8f9fa;
+    color: #212529;
 }
 
 div.loader {
@@ -516,9 +568,8 @@ div.loader:after {
 }
 
 @media(max-width: 768px) {
-    div.login-container {
-        margin: 10% auto;
-        top: 0;
+    div.login-container, div.signin-container {
+        width: 90%;
     }
 }
 
