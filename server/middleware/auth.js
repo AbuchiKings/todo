@@ -31,7 +31,7 @@ const auth = {
         if (!token) return errorHandler(401, 'Unauthorised. Please login with your details');
 
         jwt.verify(token, SECRET, (err, decodedToken) => {
-            if (err) return next(error);
+            if (err) return next(err);
             req.user = decodedToken;
             return next();
         });
@@ -76,7 +76,7 @@ const auth = {
         const salt = dbPassword.split('$')[0];
         const hash = await pbkd(password, salt, iterations, hashBytes, 'sha512').toString('hex');
 
-        return hash === originalHash
+        return hash === originalHash;
 
     }
 

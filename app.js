@@ -9,7 +9,7 @@ const preventCrossSiteScripting = require('xss-clean');
 const preventParameterPollution = require('hpp');
 const compression = require('compression');
 const cors = require('cors');
-const router = require('./routes/router');
+const router = require('./server/routes/router');
 const http = require('http');
 
 const app = express();
@@ -46,7 +46,13 @@ app.use(compression());
 
 app.use(router);
 
-
+app.use((err, req, res, next) => {
+    res.status(err.statusCode || 500);
+    if (process.env.NODE_ENV === 'production' && err.statusCode === 500) {
+        err.message = "Something has gone very wrong"
+    }
+   return  res.json({ status: err.status, message: err.message });
+});
 
 const server = http.createServer(app);
 

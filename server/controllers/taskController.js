@@ -51,7 +51,7 @@ class TaskController {
             res.nextTasks = nextTasks;
             res.previousTasks = previousTasks;
 
-            return responseHandler(res, result, next, 200, 'Tasks retrieved successfully', tasks.length);
+            return responseHandler(res, tasks, next, 200, 'Tasks retrieved successfully', tasks.length);
         } catch (error) {
             return next(error);
         }
