@@ -12,7 +12,7 @@ const SECRET = process.env.JWT_KEY;
 const pbkd = util.promisify(crypto.pbkdf2Sync);
 const iterations = parseInt(process.env.ITERATIONS, 10);
 const hashBytes = parseInt(process.env.HASH_BYTES, 10);
-const saltBytes = parseInt(process.env.SALT_BYTES);
+const saltBytes = parseInt(process.env.SALT_BYTES, 10);
 
 
 const auth = {
