@@ -18,7 +18,7 @@ class TaskController {
         try {
             const createdOn = Date();
             const editedOn = Date();
-            const task = await Task.create({ ...req.body, createdOn, editedOn, isComplete: false });
+            const task = await Task.create({ ...req.body, createdBy:req.user._id, createdOn, editedOn, isComplete: false });
             return responseHandler(res, task, next, 201, 'Task was created successfully');
         } catch (error) {
             console.log(error)
@@ -69,7 +69,7 @@ class TaskController {
     */
     static async getTask(req, res, next) {
         try {
-            const task = await Task.findOne({ createdBy: req.user._id, _id: req.params.task_id });
+            const task = await Task.findOne({ createdBy: req.user._id, _id: req.params.task_id }).lean();
             if (!task) {
                 return errorHandler(404, 'Task not found');
             }
@@ -95,7 +95,7 @@ class TaskController {
             const task = await Task.findOneAndUpdate({ createdBy: req.user._id, _id: req.params.task_id }, { ...updateData, editedOn }, {
                 runValidators: true,
                 new: true
-            });
+            }).lean();
             if (!task) {
                 return errorHandler(404, 'Task not found');
             }
@@ -116,7 +116,7 @@ class TaskController {
     */
     static async deleteTask(req, res, next) {
         try {
-            const task = await Task.findOneAndDelete({ createdBy: req.user._id, _id: req.params.task_id });
+            const task = await Task.findOneAndDelete({ createdBy: req.user._id, _id: req.params.task_id }).lean();
             if (!task) {
                 return errorHandler(404, 'Task not found');
             }

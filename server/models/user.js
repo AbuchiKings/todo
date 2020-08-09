@@ -11,6 +11,7 @@ const userSchema = mongoose.Schema({
     email: {
         type: String,
         unique: [true, 'This email already exists!'],
+        required:[true, 'Please enter your email address'],
         validate: {
             validator: function (value) {
                 return validator.isEmail(value);
@@ -35,6 +36,9 @@ const userSchema = mongoose.Schema({
             message: 'Passwords do not match'
         },
         select: false
+    },
+    registeredOn: {
+        type: Date
     }
 });
 

@@ -1,5 +1,5 @@
 const jwt = require('jsonwebtoken');
-const dotenv = require('dotenv');
+const dotenv = require('dotenv').config();
 const errorHandler = require('../utils/errorHandler');
 const responseHandler = require('../utils/responseHandler');
 const crypto = require('crypto');
@@ -7,7 +7,6 @@ const util = require('util');
 
 
 
-dotenv.config();
 const SECRET = process.env.JWT_KEY;
 const pbkd = util.promisify(crypto.pbkdf2Sync);
 const iterations = parseInt(process.env.ITERATIONS, 10);
@@ -39,8 +38,8 @@ const auth = {
 
     signToken: async (req, res, next) => {
         try {
-            const { id, email, is_admin, is_verified } = req.user;
-            const token = jwt.sign({ id, email, is_admin, is_verified }, SECRET, { expiresIn: process.env.JWT_EXPIRATION_TIMEFRAME });
+            const { _id, email } = req.user;
+            const token = jwt.sign({ _id, email}, SECRET, { expiresIn: process.env.JWT_EXPIRATION_TIMEFRAME });
             req.token = token;
             next();
         } catch (error) {
@@ -66,8 +65,9 @@ const auth = {
     },
 
     hashPassword: async (password) => {
+        console.log(`${iterations, hashBytes, saltBytes}`)
         const salt = crypto.randomBytes(saltBytes).toString('hex');
-        const hash = await pbkd(password, salt, iterations, chashBytes, 'sha512').toString('hex');
+        const hash = await pbkd(password, salt, iterations, hashBytes, 'sha512').toString('hex');
         return [salt, hash].join('$');
     },
 

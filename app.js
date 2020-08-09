@@ -22,7 +22,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 }).then(con => console.log(`Connected to ${con.connections[0].name} Database successfully`))
     .catch(error => { return console.log(error); });
 
-app.use(express.static(path.join(__dirname, 'ui')));
+//app.use(express.static(path.join(__dirname, 'ui')));
 
 app.use(cors());
 app.options('*', cors());
@@ -48,6 +48,8 @@ app.use(router);
 
 app.use((err, req, res, next) => {
     res.status(err.statusCode || 500);
+    console.log(err);
+    console.log(err.name);
     if (process.env.NODE_ENV === 'production' && err.statusCode === 500) {
         err.message = "Something has gone very wrong"
     }
@@ -56,7 +58,7 @@ app.use((err, req, res, next) => {
 
 const server = http.createServer(app);
 
-server.listen(process.env.PORT || 8080, () => {
+server.listen(process.env.PORT || 5000, () => {
     console.log('Server is running on port 8080');
 });
 

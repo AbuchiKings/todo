@@ -1,5 +1,5 @@
 const { Router } = require('express');
-const task = require('./taskRouter');
+const task = require('./taskRoutes');
 const user = require('./userRoutes');
 
 
@@ -12,8 +12,8 @@ router.get('/', (request, response) => {
     });
 });
 
-router.use('/api/v1', task);
 router.use('/api/v1', user);
+router.use('/api/v1', task);
 
 
 //router.use(globalErrorHandler);
