@@ -50,7 +50,8 @@ body {
     line-height: 1.5;
     background: rgba(10, 10, 26, .8);
     background-image: url(../images/bgc3.jpg);
-    background-size: cover;
+    background-size: contain;
+    background-attachment: fixed;
     color: #212529;
     min-height: 100%;
     min-height: 100vh;
@@ -376,7 +377,7 @@ div.slide {
     width: 100%;
 }
 
-section.login-section, section.signin-section {
+section.login-section, section.signup-section {
     /* //background: #f8f9fa; */
     width: 100%;
     padding: 0;
@@ -390,7 +391,7 @@ section.login-section, section.signin-section {
     justify-content: center;
 }
 
-div.login-container, div.signin-container {
+div.login-container, div.signup-container {
     border: 0;
     width: 50%;
     max-width: 370px;
@@ -403,7 +404,7 @@ div.login-container, div.signin-container {
     border-radius: 3px;
 }
 
-div.login-container h2, div.signin-container h2 {
+div.login-container h2, div.signup-container h2 {
     margin-bottom: 2rem;
     color: var(--indigo);
     font-weight: 500;
@@ -411,20 +412,20 @@ div.login-container h2, div.signin-container h2 {
     font-size: 2rem;
 }
 
-div.login-container h2 .to, div.signin-container h2 .to {
+div.login-container h2 .to, div.signup-container h2 .to {
     margin-bottom: 2rem;
     color: var(--success);
 }
 
-.login-form, .signin-form {
+.login-form, .signup-form {
     text-align: center;
 }
 
-.login-form .input-container, .signin-form .input-container {
+.login-form .input-container, .signup-form .input-container {
     position: relative
 }
 
-.login-form label, .signin-form label {
+.login-form label, .signup-form label {
     position: absolute;
     left: 10px;
     z-index: 2;
@@ -568,7 +569,7 @@ div.loader:after {
 }
 
 @media(max-width: 768px) {
-    div.login-container, div.signin-container {
+    div.login-container, div.signup-container {
         width: 90%;
     }
 }

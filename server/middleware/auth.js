@@ -19,7 +19,7 @@ const auth = {
     verifyToken(req, res, next) {
         const access = req.headers.authorization;
         let token;
-        if (access) {
+        if (access && access.trim().length > 10) {
             let bearerToken = access.split(' ');
             token = bearerToken[1];
 
@@ -39,7 +39,7 @@ const auth = {
     signToken: async (req, res, next) => {
         try {
             const { _id, email } = req.user;
-            const token = jwt.sign({ _id, email}, SECRET, { expiresIn: process.env.JWT_EXPIRATION_TIMEFRAME });
+            const token = jwt.sign({ _id, email }, SECRET, { expiresIn: process.env.JWT_EXPIRATION_TIMEFRAME });
             req.token = token;
             next();
         } catch (error) {
@@ -67,14 +67,14 @@ const auth = {
     hashPassword: async (password) => {
         console.log(`${iterations, hashBytes, saltBytes}`)
         const salt = crypto.randomBytes(saltBytes).toString('hex');
-        const hash = await pbkd(password, salt, iterations, hashBytes, 'sha512').toString('hex');
+        const hash = crypto.pbkdf2Sync(password, salt, iterations, hashBytes, 'sha512').toString('hex');
         return [salt, hash].join('$');
     },
 
     isPassword: async (password, dbPassword) => {
         const originalHash = dbPassword.split('$')[1];
         const salt = dbPassword.split('$')[0];
-        const hash = await pbkd(password, salt, iterations, hashBytes, 'sha512').toString('hex');
+        const hash = crypto.pbkdf2Sync(password, salt, iterations, hashBytes, 'sha512').toString('hex');
 
         return hash === originalHash;
 

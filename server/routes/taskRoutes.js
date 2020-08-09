@@ -3,7 +3,7 @@ const Task = require('../controllers/taskController');
 const auth = require('../middleware/auth');
 const router = express.Router();
 
-router.use(auth.verifyToken);
+router.use('/tasks', auth.verifyToken);
 
 router.post('/tasks', Task.createTask);
 router.get('/tasks', Task.getAllTasks);

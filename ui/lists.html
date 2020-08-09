@@ -5,10 +5,9 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <link rel="stylesheet" href="css/bootstrap-4.3.1-dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="css/styles.css">
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
-        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+    integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <title>todo list</title>
 </head>
 
@@ -21,11 +20,11 @@
     <main>
         <div class="form-wrapper">
             <form class="task-form">
-                <input type="text" data-task-value id="task" class="form-grp" aria-label="task" placeholder="Task"
-                    autocomplete="off">
+                <textarea type="text" data-task id="task" name="task" class="form-grp" aria-label="task" placeholder="Task"
+                    autocomplete="off"></textarea>
 
-                <textarea type="text" data-_id id="desc" class="form-grp" aria-label="Description"
-                    placeholder="Description" autocomplete="off"></textarea>
+                <!-- <textarea type="text" data-_id id="notes", name="notes" class="form-grp" aria-label="Description"
+                    placeholder="Description" autocomplete="off"></textarea> -->
 
                 <!-- <div class="row">
                 <div class="col">
@@ -50,7 +49,7 @@
 
 
         <div class="table-div">
-            <table>
+            <table class=".table">
                 <thead>
                     <tr>
                         <th scope="col">Task</th>
@@ -58,30 +57,14 @@
                         <th scope="col">Delete</th>
                     </tr>
                 </thead>
-                <tbody>
+                <tbody class="tbody">
                     <tr class="data-row">
                         <td class="data task" data-title="Task" >Go to market and make a purchase of Lorem ipsum dolor sit amet, consectetur adipisicing
                             elit. Aspernatur inventore possimus tempora, sed libero at quia saepe enim expedita nihil
                             voluptatum est tenetur amet aliquam quae vitae dolores sapiente nisi.</td>
                         <td class="data util" data-btn><i class=" fa fa-edit btnedit"></i> </td>
                         <td class="data util" data-btn><i class=" fa fa-trash btndelete"></i></td>
-                    </tr>
-                    <tr class="data-row">
-                        <td class="data task" data-title="Task" >Go to market and make a purchase of Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit. Aspernatur inventore possimus tempora, sed libero at quia saepe enim expedita nihil
-                            voluptatum est tenetur amet aliquam quae vitae dolores sapiente nisi.</td>
-                        <td class="data util" ><i class=" fa fa-edit btnedit"></i> </td>
-                        <td class="data util"><i class=" fa fa-trash btndelete"></i></td>
-                    </tr>
-                    <tr class="data-row">
-                        <td class="data task" data-title="Task" >Go to market and make a purchase of Lorem ipsum dolor sit amet, consectetur adipisicing
-                            elit. Aspernatur inventore possimus tempora, sed liber.</td>
-                        <td class="data util"><i class=" fa fa-edit btnedit"></i> </td>
-                        <td class="data util" ><i class=" fa fa-trash btndelete"></i></td>
-                    </tr>
-                   
-                  
-                    
+                    </tr>                    
                 </tbody>
             </table>
 
@@ -99,14 +82,7 @@
 
     </main>
 
-    <script src="./bootstrap-4.3.1-dist/js/jquery-3.3.1.slim.min.js"></script>
-
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
-        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
-        crossorigin="anonymous"></script>
-    <script src="./bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
-
-    <script src="../js/main.js"></script>
+    <script src="./js/main.js"></script>
 </body>
 
 </html>

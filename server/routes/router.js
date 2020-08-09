@@ -14,7 +14,12 @@ router.get('/', (request, response) => {
 
 router.use('/api/v1', user);
 router.use('/api/v1', task);
-
+router.all('*', (request, response) => {
+    response.status(404).json({
+        status: 'error',
+        message: `${request.originalUrl} was not found on this platform`
+    });
+});
 
 //router.use(globalErrorHandler);
 
