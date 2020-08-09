@@ -13,11 +13,14 @@ const tbody = document.querySelector('.tbody');
 /***************functions******************/
 
 const onSuccess = async (res) => {
-    if (res.ok) return res.status === 204 ? {} : res.json()
-        .then(response => {
-            console.log(response);
-            return response;
-        })
+    if (res.ok) {
+        console.log(res)
+        return res.status === 204 ? { status: 204, message: "Deleted successfully!" } : res.json()
+            .then(response => {
+                console.log(response);
+                return response;
+            })
+    }
     else {
 
         return Promise.reject(await res.json());
@@ -250,29 +253,18 @@ async function deleteItem(task, id) {
 
 }
 
-function deleteAllItems(store) {
+async function deleteAllItems() {
     if (window.confirm('All items will be permannently deleted from database')) {
-        store.openCursor().onsuccess = function (event) {
-            cursor = event.target.result;
-            if (cursor) {
-                const request = cursor.delete();
-                cursor.continue()
-                request.onsuccess = function () {
-
-                };
-
-            } else {
-                if (show === true) {
-                    let tBody = document.querySelector('.table tBody');
-                    tBody.innerHTML = '';
-                    getAllItems(store)
-                }
-                const el = document.querySelector('.success');
-                const msg = 'Done!'
-                showMsg(el, msg);
-                console.log('Done!');
+        const url = `${baseURL}/tasks`;
+        const msg = document.querySelector('.errors');
+        const response = await requestHandler('DELETE', url);
+        console.log(response.status);
+        console.log(response.message);
+        if (response.status === 204) {
+            while (tbody.firstChild) {
+                tbody.removeChild(tbody.firstChild)
             }
-        };
+        }
     }
 
 
@@ -297,8 +289,10 @@ if (taskForm) {
             let data = { task: taskForm.task.value };
             taskForm.task.value = ''
             return addTask(data);
+
         } else if (e.target.id === 'btn-update') {
             return update();
+
         } else if (e.target.id === 'btn-delete') {
             return deleteAllItems()
         }
@@ -313,6 +307,7 @@ if (tbody) {
             let row = document.getElementById(`${id}`);
             taskForm.task.value = row.textContent;
             taskForm.task.dataset.task = id;
+
         } else if (e.target.classList.contains('btndelete')) {
             let id = e.target.dataset.id;
             let row = document.getElementById(`tr${id}`);

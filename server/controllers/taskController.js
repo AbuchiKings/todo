@@ -18,7 +18,7 @@ class TaskController {
         try {
             const createdOn = Date();
             const editedOn = Date();
-            const task = await Task.create({ ...req.body, createdBy:req.user._id, createdOn, editedOn, isComplete: false });
+            const task = await Task.create({ ...req.body, createdBy: req.user._id, createdOn, editedOn, isComplete: false });
             return responseHandler(res, task, next, 201, 'Task was created successfully');
         } catch (error) {
             console.log(error)
@@ -45,7 +45,7 @@ class TaskController {
             const totalTasks = await Task.countDocuments({ createdBy: req.user._id });
             let nextTasks = skip + 1 > totalTasks ? false : true;
 
-            if (skip >= totalTasks) return errorHandler(404, 'This page does not exist!');
+            if (skip >= totalTasks) return errorHandler(404, 'Not found');
 
             const tasks = await Task.find({ createdBy: req.user._id }).skip(skip).limit(limit).lean();
             res.nextTasks = nextTasks;
@@ -120,6 +120,14 @@ class TaskController {
             if (!task) {
                 return errorHandler(404, 'Task not found');
             }
+            return responseHandler(res, null, next, 204, 'Task deleted sucessfully', 1);
+        } catch (error) {
+            return next(error);
+        }
+    }
+    static async deleteAllTasks(req, res, next) {
+        try {
+            await Task.deleteMany({ createdBy: req.user._id });
             return responseHandler(res, null, next, 204, 'Task deleted sucessfully', 1);
         } catch (error) {
             return next(error);

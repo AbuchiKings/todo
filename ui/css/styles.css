@@ -50,7 +50,7 @@ body {
     line-height: 1.5;
     background: rgba(10, 10, 26, .8);
     background-image: url(../images/bgc3.jpg);
-    background-size: contain;
+    background-size: cover;
     background-attachment: fixed;
     color: #212529;
     min-height: 100%;
