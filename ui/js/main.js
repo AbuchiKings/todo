@@ -6,6 +6,7 @@ const taskForm = document.querySelector('.task-form');
 const tbody = document.querySelector('.tbody');
 const failure = document.querySelector('.failure');
 const success = document.querySelector('.success');
+const logoutBtn = document.querySelector('.btn-logout');
 
 
 
@@ -34,7 +35,7 @@ const onSuccess = async (res) => {
 
 const onError = (err) => {
     const { message, error, errors, status } = err;
-    showMsg(failure, `${message}!`)
+    showMsg(failure, `${message}!`);
     return ({ error, message, errors });
 };
 
@@ -212,7 +213,8 @@ async function update() {
         let flag = isEmpty(data);
         if (!taskForm.task.dataset.task) {
             showMsg(failure, 'Error: Cannot update a nonexistent task');
-            return }
+            return
+        }
         if (flag) {
             spinner()
             taskForm.task.value = '';
@@ -279,6 +281,26 @@ async function deleteAllItems() {
     }
 }
 
+async function logout() {
+    try {
+        spinner()
+        const url = `${baseURL}/logout`;
+        const response = await requestHandler('GET', url);
+        if (response && response.data) {
+            localStorage.clear();
+            spinner();
+            window.location.pathname !== '/index.html' ? window.location.replace('./index.html') : {};
+            window.location.pathname === '/index.html' ? showMsg(success, 'You have been successfully logged out') : {};
+        }
+        const loader = document.querySelector('.loader-div');
+        loader.classList.contains('over-spinner') ? loader.classList.remove('over-spinner') : {};
+        return;
+    } catch (error) {
+        console.log(error);
+        return;
+    }
+}
+
 /***************Event Listeners */
 if (signupForm) {
     signupForm.addEventListener('submit', signup);
@@ -289,6 +311,7 @@ if (loginForm) {
 
 if (window.location.pathname === '/lists.html') {
     loadTasks();
+    logoutBtn.addEventListener('click', logout);
 }
 
 if (taskForm) {

@@ -15,7 +15,19 @@ const saltBytes = parseInt(process.env.SALT_BYTES, 10);
 
 
 const auth = {
-
+    logout(req, res, next) {
+        if (req.cookies && req.cookies.jwt) {
+            token = req.cookies.jwt;
+            const cookieOptions = {
+                httpOnly: true,
+                expires: new Date(Date.now() - process.env.JWT_EXPIRY_TIME * 1000 * 60 * 60 * 24)
+            }
+            res.cookie('jwt', token, cookieOptions);
+        }
+        return responseHandler(res, { message: "You have been successfully logged out" },
+            next, 200, 'Youhave been successfully logged out', 0);
+    },
+    
     verifyToken(req, res, next) {
         const access = req.headers.authorization;
         let token;
