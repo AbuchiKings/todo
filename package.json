@@ -20,6 +20,9 @@
   "author": "",
   "license": "ISC",
   "homepage": "",
+  "engines": {
+    "node": "10.15.1"
+  },
   "dependencies": {
     "compression": "^1.7.4",
     "cookie-parser": "^1.4.5",
