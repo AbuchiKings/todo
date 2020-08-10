@@ -4,6 +4,9 @@ const signupForm = document.querySelector('.signup-form');
 const btnDiv = document.querySelector('div.btn-div');
 const taskForm = document.querySelector('.task-form');
 const tbody = document.querySelector('.tbody');
+const failure = document.querySelector('.failure');
+const success = document.querySelector('.success');
+
 
 
 
@@ -13,27 +16,25 @@ const tbody = document.querySelector('.tbody');
 
 const onSuccess = async (res) => {
     if (res.ok) {
-        console.log(res)
         return res.status === 204 ? { status: 204, message: "Deleted successfully!" } : res.json()
             .then(response => {
                 console.log(response);
+                showMsg(success, `Success: ${response.message}!`)
                 return response;
             })
     }
     else {
-
+        if (res.status === 401) {
+            localStorage.clear();
+            window.location.pathname !== '/index.html' ? window.location.replace('./index.html') : {};
+        }
         return Promise.reject(await res.json());
     }
-
 };
 
 const onError = (err) => {
-    const { message, error, errors } = err;
-    if (err.status === 401) {
-        localStorage.clear();
-        window.location.replace('./index.html');
-    }
-    console.log(err);
+    const { message, error, errors, status } = err;
+    showMsg(failure, `Error: ${message}!`)
     return ({ error, message, errors });
 };
 
@@ -91,7 +92,7 @@ function showMsg(element, msg) {
         if (element.classList.contains('slide')) {
             element.classList.remove('slide')
         }
-    }, 3500);
+    }, 5500);
 }
 
 function isEmpty(object) {
@@ -105,34 +106,34 @@ function isEmpty(object) {
 
     return flag;
 }
+function spinner() {
+    const loader = document.querySelector('.loader-div');
+    loader.classList.toggle('over-spinner');
+}
 /*************************requests***/
 
 async function login(event) {
     try {
         event.preventDefault();
-        console.log('here')
-        // // spinner();
+        spinner();
         const email = loginForm.email.value;
         const password = loginForm.password.value;
         const userData = { email, password };
         const loginPath = `${baseURL}/login`;
         const response = await requestHandler('POST', loginPath, userData);
-        const { token } = response.data;
-        window.localStorage.setItem('token', token);
-        console.log(response.status);
-        console.log(response.message);
-        if (response.data === undefined) {
-            //errorHandler(response);
-            // // spinner();
-            return;
+        loginForm.email.value = loginForm.password.value = '';
+        if (response && response.data) {
+            const { token } = response.data;
+            window.localStorage.setItem('token', token);
+            const { message } = response;
+            window.location.replace('./lists.html');
         }
-        const { message } = response;
-        // // spinner();
-        window.location.replace('./lists.html');
+        spinner();
         return;
     } catch (error) {
-        // // spinner();
+        spinner();
         console.log(error);
+        return;
     }
 
 };

@@ -30,7 +30,7 @@ const auth = {
         if (!token) return errorHandler(401, 'Unauthorised. Please login with your details');
 
         jwt.verify(token, SECRET, (err, decodedToken) => {
-            if (err) return next(err);
+            if (err) return errorHandler(401, 'Unauthorised. Please login with your details');
             req.user = decodedToken;
             return next();
         });
