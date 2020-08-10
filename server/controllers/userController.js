@@ -21,7 +21,7 @@ exports.login = async (req, res, next) => {
         const user = await User.findOne({ email }).select('+password').lean();
         const isPassword = user ? await auth.isPassword(password, user.password) : false;
         if (!user || isPassword !== true) {
-            return errorHandler(401, 'Incorrect username or password');
+            return errorHandler(401, 'Incorrect email or password');
         }
         req.user = user;
         return next();

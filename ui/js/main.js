@@ -290,7 +290,6 @@ async function logout() {
             localStorage.clear();
             spinner();
             window.location.pathname !== '/index.html' ? window.location.replace('./index.html') : {};
-            window.location.pathname === '/index.html' ? showMsg(success, 'You have been successfully logged out') : {};
         }
         const loader = document.querySelector('.loader-div');
         loader.classList.contains('over-spinner') ? loader.classList.remove('over-spinner') : {};
