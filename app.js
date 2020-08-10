@@ -48,8 +48,6 @@ app.use(router);
 
 app.use((err, req, res, next) => {
     res.status(err.statusCode || 500);
-    console.log(err);
-    console.log(err.name);
     if (process.env.NODE_ENV === 'production' && err.statusCode === 500) {
         err.message = "Something has gone very wrong"
     }
