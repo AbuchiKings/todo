@@ -1,5 +1,4 @@
-//const baseURL = `${window.location.origin}/api/v1`;
-const baseURL = `http://localhost:5000/api/v1`;
+const baseURL = `${window.location.origin}/api/v1`;
 const loginForm = document.querySelector('.login-form');
 const signupForm = document.querySelector('.signup-form');
 const btnDiv = document.querySelector('div.btn-div');
@@ -30,7 +29,7 @@ const onSuccess = async (res) => {
 
 const onError = (err) => {
     const { message, error, errors } = err;
-    if (err.statusCode === 401) {
+    if (err.status === 401) {
         localStorage.clear();
         window.location.replace('./index.html');
     }
@@ -278,7 +277,7 @@ if (loginForm) {
     loginForm.addEventListener('submit', login);
 }
 
-if (window.location.pathname === '/ui/lists.html') {
+if (window.location.pathname === '/lists.html') {
     loadTasks();
 }
 

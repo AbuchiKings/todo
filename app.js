@@ -22,7 +22,7 @@ mongoose.connect(process.env.MONGODB_URI, {
 }).then(con => console.log(`Connected to ${con.connections[0].name} Database successfully`))
     .catch(error => { return console.log(error); });
 
-//app.use(express.static(path.join(__dirname, 'ui')));
+app.use(express.static(path.join(__dirname, 'ui')));
 
 app.use(cors());
 app.options('*', cors());
