@@ -34,7 +34,7 @@ const onSuccess = async (res) => {
 
 const onError = (err) => {
     const { message, error, errors, status } = err;
-    showMsg(failure, `Error: ${message}!`)
+    showMsg(failure, `${message}!`)
     return ({ error, message, errors });
 };
 
@@ -131,7 +131,6 @@ async function login(event) {
         spinner();
         return;
     } catch (error) {
-        spinner();
         console.log(error);
         return;
     }
@@ -141,7 +140,7 @@ async function login(event) {
 async function signup(event) {
     try {
         event.preventDefault();
-        // spinner();
+        spinner();
         const fullname = signupForm.fullname.value;
         const email = signupForm.email.value;
         const password = signupForm.password.value;
@@ -150,19 +149,14 @@ async function signup(event) {
         const signupPath = `${baseURL}/register`;
         const msg = document.querySelector('.errors');
         const response = await requestHandler('POST', signupPath, signupData)
-        console.log(response.status);
-        console.log(response.message);
-        if (response.data === undefined) {
-            // errorHandler(response);
-            // spinner();
-            return;
+        if (response && response.data) {
+            window.location.replace('./index.html');
         }
-        // spinner();
-        window.location.replace('./index.html');
+        spinner();
         return;
     } catch (error) {
-        // spinner();
         console.log(error);
+        return;
     }
 };
 
@@ -170,23 +164,24 @@ async function signup(event) {
 async function addTask(data) {
     try {
         let flag = isEmpty(data);
-        if (taskForm.task.dataset.task) { return }
+        if (taskForm.task.dataset.task) {
+            return showMsg(failure, 'Task already exists');
+        }
         if (flag) {
+            spinner();
             const url = `${baseURL}/tasks`;
-            const msg = document.querySelector('.errors');
             const response = await requestHandler('POST', url, data);
-            updateDisplay(response.data)
-            console.log(response.status);
-            console.log(response.message);
+            if (response && response.data) {
+                updateDisplay(response.data);
+                spinner();
+            }
         } else {
-            const el = document.querySelector('.failure');
             const msg = 'Provide data!'
-            //showMsg(el, msg);
-            console.log('Provide Data')
+            showMsg(failure, msg);
         }
         return;
     } catch (error) {
-
+        console.log(error);
     }
 
 
@@ -195,15 +190,18 @@ async function addTask(data) {
 
 async function loadTasks() {
     try {
+        spinner()
         const url = `${baseURL}/tasks`;
         const msg = document.querySelector('.errors');
         const response = await requestHandler('GET', url);
-        console.log('loading...')
-        displayItems(response.data)
-        console.log(response.status);
-        console.log(response.message);
+        if (response && response.data) {
+            displayItems(response.data)
+        }
+        spinner()
+        return;
     } catch (error) {
         console.log(error);
+        return;
     }
 }
 
@@ -212,24 +210,23 @@ async function update() {
     try {
         let data = { task: taskForm.task.value };
         let flag = isEmpty(data);
-        if (!taskForm.task.dataset.task) { return }
+        if (!taskForm.task.dataset.task) {
+            showMsg(failure, 'Error: Cannot update a nonexistent task');
+            return }
         if (flag) {
+            spinner()
             taskForm.task.value = '';
             const url = `${baseURL}/tasks/${taskForm.task.dataset.task}`;
-            const msg = document.querySelector('.errors');
             const response = await requestHandler('PATCH', url, data);
             if (response.data) {
                 let row = document.getElementById(`${taskForm.task.dataset.task}`)
                 row.textContent = response.data.task;
                 taskForm.task.dataset.task = ''
-                console.log(response.status);
-                console.log(response.message);
+                spinner();
             }
         } else {
-            const el = document.querySelector('.failure');
             const msg = 'Provide data!'
-            //showMsg(el, msg);
-            console.log('Provide Data')
+            showMsg(failure, msg);
         }
         return;
     } catch (error) {
@@ -240,34 +237,46 @@ async function update() {
 }
 
 async function deleteItem(task, id) {
-    if (window.confirm('Item will be permannently deleted from database')) {
-        const url = `${baseURL}/tasks/${id}`;
-        const msg = document.querySelector('.errors');
-        const response = await requestHandler('DELETE', url);
-        if (response.status === 204) {
-            tbody.removeChild(task)
-            console.log(response.status);
-            console.log(response.message);
+    try {
+        if (window.confirm('Item will be permannently deleted from database')) {
+            spinner()
+            const url = `${baseURL}/tasks/${id}`;
+            const response = await requestHandler('DELETE', url);
+            if (response.status === 204) {
+                tbody.removeChild(task);
+                showMsg(success, `Success: ${response.message}`);
+            }
+            spinner();
         }
+
+        return;
+    } catch (error) {
+        console.log(error);
+        return;
     }
 
 }
 
 async function deleteAllItems() {
-    if (window.confirm('All items will be permannently deleted from database')) {
-        const url = `${baseURL}/tasks`;
-        const msg = document.querySelector('.errors');
-        const response = await requestHandler('DELETE', url);
-        console.log(response.status);
-        console.log(response.message);
-        if (response.status === 204) {
-            while (tbody.firstChild) {
-                tbody.removeChild(tbody.firstChild)
+    try {
+        if (window.confirm('All items will be permannently deleted from database')) {
+            spinner()
+            const url = `${baseURL}/tasks`;
+            const msg = document.querySelector('.errors');
+            const response = await requestHandler('DELETE', url);
+            if (response.status === 204) {
+                while (tbody.firstChild) {
+                    tbody.removeChild(tbody.firstChild)
+                }
+                showMsg(success, `Success: Deleted successfully!`);
             }
+            spinner();
         }
+        return;
+    } catch (error) {
+        console.log(error);
+        return;
     }
-
-
 }
 
 /***************Event Listeners */
@@ -311,7 +320,6 @@ if (tbody) {
         } else if (e.target.classList.contains('btndelete')) {
             let id = e.target.dataset.id;
             let row = document.getElementById(`tr${id}`);
-            console.log(row);
             return deleteItem(row, id);
         }
         return;

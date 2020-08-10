@@ -45,7 +45,7 @@ class TaskController {
             const totalTasks = await Task.countDocuments({ createdBy: req.user._id });
             let nextTasks = skip + 1 > totalTasks ? false : true;
 
-            if (skip >= totalTasks) return errorHandler(404, 'Not found');
+            if (skip >= totalTasks) return errorHandler(404, 'Not task found');
 
             const tasks = await Task.find({ createdBy: req.user._id }).skip(skip).limit(limit).lean();
             res.nextTasks = nextTasks;
