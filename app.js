@@ -48,10 +48,12 @@ app.use(router);
 
 app.use((err, req, res, next) => {
     res.status(err.statusCode || 500);
-    if (process.env.NODE_ENV === 'production' && err.statusCode === 500) {
-        err.message = "Something has gone very wrong"
+
+    if (process.env.NODE_ENV === 'production') {
+        err.statusCode = err.status || 500;
+        err.message = err.statusCode === 500 ? "Something has gone very wrong" : err.message;
     }
-   return  res.json({ status: err.status, message: err.message });
+    return res.json({ status: err.status, message: err.message });
 });
 
 const server = http.createServer(app);
