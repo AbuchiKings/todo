@@ -7,6 +7,10 @@ const tbody = document.querySelector('.tbody');
 const failure = document.querySelector('.failure');
 const success = document.querySelector('.success');
 const logoutBtn = document.querySelector('.btn-logout');
+const previous = document.querySelector('#prev');
+const nxt = document.querySelector('#nxt');
+const ul = document.querySelector('.nav ul');
+const table = document.querySelector('.btn-div table');
 
 
 
@@ -189,14 +193,20 @@ async function addTask(data) {
 }
 
 
-async function loadTasks() {
+async function loadTasks(page = null) {
     try {
         spinner()
-        const url = `${baseURL}/tasks`;
+        page = page || table.dataset.page;
+        const url = `${baseURL}/tasks?page=${page}`;
         const msg = document.querySelector('.errors');
         const response = await requestHandler('GET', url);
         if (response && response.data) {
-            displayItems(response.data)
+            const { previousTasks, nextTasks } = response.data.pagination;
+            previousTasks === true ? previous.classList.remove('none') : previous.classList.add('none');
+            nextTasks === true ? nxt.classList.remove('none') : nxt.classList.add('none');
+            displayItems(response.data.tasks)
+            spinner();
+            return response.data;
         }
         spinner()
         return;
@@ -346,4 +356,13 @@ if (tbody) {
         }
         return;
     });
+
+    ul.addEventListener('click', async (e) => {
+        event.preventDefault()
+        switch (e.target.id) {
+            case 'prev':
+
+
+        }
+    })
 }

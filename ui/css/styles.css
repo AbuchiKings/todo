@@ -86,10 +86,10 @@ body {
 }
 
 main {
-    padding: 10px;
+    padding: 7px;
 }
 
-.table-div, div.btn-div, div.form-wrapper {
+div.btn-div, div.form-wrapper {
     display: flex;
     justify-content: center;
 }
@@ -188,12 +188,19 @@ main {
     box-shadow: 0 0 0 0.2rem rgba(225, 83, 97, .5);
 }
 
+.table-div {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin-bottom: 15px;
+}
+
 .table-div table {
     width: 100%;
-    min-width: 300px;
+    min-width: 280px;
     text-align: left;
     border-collapse: collapse;
-    margin-bottom: 10px;
+    margin-bottom: 0px;
     background-color: #fff;
 }
 
@@ -250,13 +257,61 @@ table i {
     padding: 5px;
 }
 
+.nav, .nav ul {
+    width: 100%;
+    background-color: #fff;
+    min-width: 280px;
+    padding: 0;
+}
+
+.nav ul, li {
+    list-style-type: none;
+}
+
+.nav li {
+    display: inline-block;
+    padding: 10px 5px;
+}
+
+.nav li+li {
+    width: fit-content;
+    float: right;
+}
+
+.nav li+li:after {
+    content: " ";
+    display: block
+}
+
+.nav li a {
+    color: #212529
+}
+
+.nav li a:link {
+    color: #212529
+}
+
+li a:visited {
+    color: var(--purple);
+}
+
+.nav li a:hover {
+    color: #212529;
+    text-decoration: none;
+    border-bottom: 1px solid #212529;
+}
+
+.nav li a.none {
+    display: none;
+}
+
 .no-item {
     display: none;
 }
 
 div.w-100 {
     position: fixed;
-    top: -40px;
+    top: -100px;
     text-align: center;
     color: white;
     padding: 5px;
@@ -368,12 +423,19 @@ div.slide {
         border-collapse: separate;
         border-spacing: 10px 10px;
     }
+    .nav {
+        border: 0.5px solid rgba(0, 0, 0, .03);
+    }
 }
-.btn-logout{
+
+.btn-logout {
     position: fixed;
-    top: 10px;
-    right: 5px;
+    top: 3px;
+    right: 7px;
+    padding: 3px;
+    margin: 0;
 }
+
 /**********************LOGIN******************/
 
 .bgc {
@@ -637,7 +699,7 @@ div.loader:after {
         top: 0;
     }
     100% {
-        top: -40px;
+        top: -100px;
     }
 }
 

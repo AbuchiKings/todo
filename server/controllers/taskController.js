@@ -38,20 +38,20 @@ class TaskController {
     */
     static async getAllTasks(req, res, next) {
         try {
-            const page = req.query.page * 1 || 1;
-            const limit = req.query.limit * 1 || 10;
+            const page = req.query.page && parseInt(req.query.page, 10) > 0 ? parseInt(req.query.page, 10) : 1;
+            const limit = req.query.limit || 10;
             const skip = (page - 1) * limit;
-            let previousTasks = skip > 1 ? true : false;
+            let previousTasks = skip >= limit ? true : false;
             const totalTasks = await Task.countDocuments({ createdBy: req.user._id });
-            let nextTasks = skip + 1 > totalTasks ? false : true;
+
+            let nextTasks = skip + limit >= totalTasks ? false : true;
 
             if (skip >= totalTasks) return errorHandler(404, 'Not task found');
 
             const tasks = await Task.find({ createdBy: req.user._id }).skip(skip).limit(limit).lean();
-            res.nextTasks = nextTasks;
-            res.previousTasks = previousTasks;
-
-            return responseHandler(res, tasks, next, 200, 'Tasks retrieved successfully', tasks.length);
+            const pagination = { previousTasks, nextTasks };
+            console.log(pagination, skip)
+            return responseHandler(res, { tasks, pagination }, next, 200, 'Tasks retrieved successfully', tasks.length);
         } catch (error) {
             return next(error);
         }

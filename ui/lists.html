@@ -7,7 +7,7 @@
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <link rel="stylesheet" href="css/styles.css">
     <link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet"
-    integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+        integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
     <title>todo list</title>
 </head>
 
@@ -16,14 +16,14 @@
         <div class="spinner"></div>
     </div>
     <header class="header">
-        <h2 class><i class="fa fa-plug"></i><span class="to">  to</span>do</h2>
+        <h2 class><i class="fa fa-plug"></i><span class="to"> to</span>do</h2>
     </header>
 
     <main>
         <div class="form-wrapper">
             <form class="task-form">
-                <textarea type="text" data-task id="task" name="task" class="form-grp" aria-label="task" placeholder="Task"
-                    autocomplete="off"></textarea>
+                <textarea type="text" data-task id="task" name="task" class="form-grp" aria-label="task"
+                    placeholder="Task" autocomplete="off"></textarea>
 
                 <!-- <textarea type="text" data-_id id="notes", name="notes" class="form-grp" aria-label="Description"
                     placeholder="Description" autocomplete="off"></textarea> -->
@@ -51,7 +51,7 @@
 
 
         <div class="table-div">
-            <table class=".table">
+            <table class=".table" data-page="1">
                 <thead>
                     <tr>
                         <th scope="col">Task</th>
@@ -59,10 +59,15 @@
                         <th scope="col">Delete</th>
                     </tr>
                 </thead>
-                <tbody class="tbody">                   
+                <tbody class="tbody">
                 </tbody>
             </table>
-
+            <div class="nav">
+                <ul>
+                    <li class="prev"> <a href="" id="prev" class="none">&lt;&lt;Previous</a></li>
+                    <li class="nxt"> <a href="" id="nxt" class="none" >Next&gt;&gt;</a></li>
+                </ul>
+            </div>
         </div>
 
         <div class="container text-center no-item " id="no-item">
@@ -70,6 +75,7 @@
                 No item in todo...
             </div>
         </div>
+
 
     </main>
 
