@@ -244,12 +244,13 @@ async function update() {
                 let row = document.getElementById(`${taskForm.task.dataset.task}`)
                 row.textContent = response.data.task;
                 taskForm.task.dataset.task = ''
-                spinner();
+                
             }
         } else {
             const msg = 'Provide data!'
             showMsg(failure, msg);
         }
+        spinner();
         return;
     } catch (error) {
         spinner()
