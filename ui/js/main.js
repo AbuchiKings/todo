@@ -184,8 +184,8 @@ async function addTask(data) {
                 } else if (tbody.childElementCount >= 10) {
                     nxt.classList.remove('none');
                 }
-                spinner();
             }
+            spinner();
         } else {
             const msg = 'Provide data!'
             showMsg(failure, msg);
@@ -244,13 +244,14 @@ async function update() {
                 let row = document.getElementById(`${taskForm.task.dataset.task}`)
                 row.textContent = response.data.task;
                 taskForm.task.dataset.task = ''
-                
+
             }
+            spinner();
         } else {
             const msg = 'Provide data!'
             showMsg(failure, msg);
         }
-        spinner();
+       
         return;
     } catch (error) {
         spinner()
