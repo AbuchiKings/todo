@@ -10,7 +10,7 @@ const logoutBtn = document.querySelector('.btn-logout');
 const previous = document.querySelector('#prev');
 const nxt = document.querySelector('#nxt');
 const ul = document.querySelector('.nav ul');
-const table = document.querySelector('.btn-div table');
+const table = document.querySelector('.table');
 
 
 
@@ -136,6 +136,7 @@ async function login(event) {
         spinner();
         return;
     } catch (error) {
+        spinner()
         console.log(error);
         return;
     }
@@ -160,6 +161,7 @@ async function signup(event) {
         spinner();
         return;
     } catch (error) {
+        spinner()
         console.log(error);
         return;
     }
@@ -177,7 +179,11 @@ async function addTask(data) {
             const url = `${baseURL}/tasks`;
             const response = await requestHandler('POST', url, data);
             if (response && response.data) {
-                updateDisplay(response.data);
+                if (tbody.childElementCount < 10) {
+                    updateDisplay(response.data);
+                } else if (tbody.childElementCount >= 10) {
+                    nxt.classList.remove('none');
+                }
                 spinner();
             }
         } else {
@@ -186,7 +192,9 @@ async function addTask(data) {
         }
         return;
     } catch (error) {
+        spinner();
         console.log(error);
+        return;
     }
 
 
@@ -195,7 +203,7 @@ async function addTask(data) {
 
 async function loadTasks(page = null) {
     try {
-        spinner()
+        spinner();
         page = page || table.dataset.page;
         const url = `${baseURL}/tasks?page=${page}`;
         const msg = document.querySelector('.errors');
@@ -211,6 +219,7 @@ async function loadTasks(page = null) {
         spinner()
         return;
     } catch (error) {
+        spinner()
         console.log(error);
         return;
     }
@@ -219,6 +228,7 @@ async function loadTasks(page = null) {
 
 async function update() {
     try {
+        console.log(tbody.childElementCount);
         let data = { task: taskForm.task.value };
         let flag = isEmpty(data);
         if (!taskForm.task.dataset.task) {
@@ -242,6 +252,7 @@ async function update() {
         }
         return;
     } catch (error) {
+        spinner()
         console.log(error)
         return;
     }
@@ -263,6 +274,7 @@ async function deleteItem(task, id) {
 
         return;
     } catch (error) {
+        spinner()
         console.log(error);
         return;
     }
@@ -286,6 +298,7 @@ async function deleteAllItems() {
         }
         return;
     } catch (error) {
+        spinner()
         console.log(error);
         return;
     }
@@ -305,6 +318,7 @@ async function logout() {
         loader.classList.contains('over-spinner') ? loader.classList.remove('over-spinner') : {};
         return;
     } catch (error) {
+        spinner()
         console.log(error);
         return;
     }
@@ -348,6 +362,8 @@ if (tbody) {
             let row = document.getElementById(`${id}`);
             taskForm.task.value = row.textContent;
             taskForm.task.dataset.task = id;
+            taskForm.task.focus();
+
 
         } else if (e.target.classList.contains('btndelete')) {
             let id = e.target.dataset.id;
@@ -359,10 +375,22 @@ if (tbody) {
 
     ul.addEventListener('click', async (e) => {
         event.preventDefault()
-        switch (e.target.id) {
-            case 'prev':
-
-
+        if (e.target.id === 'prev') {
+            let page = parseInt(table.dataset.page, 10) - 1;
+            page = page <= 0 ? null : page;
+            tbody.innerHTML = '';
+            let result = await loadTasks(page);
+            if (result && page > 0) {
+                table.dataset.page = page;
+            }
+        } else if (e.target.id === 'nxt') {
+            let page = parseInt(table.dataset.page, 10) + 1;
+            tbody.innerHTML = '';
+            let result = await loadTasks(page);
+            if (result && page > 0) {
+                table.dataset.page = page;
+            }
         }
+        return;
     })
 }
