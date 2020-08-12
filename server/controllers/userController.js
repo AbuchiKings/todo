@@ -6,7 +6,6 @@ const responseHandler = require('../utils/responseHandler');
 exports.register = async (req, res, next) => {
     try {
         const oldUser = await User.findOne({email: req.body.email.toLowerCase()});
-        console.log(oldUser)
         if(oldUser){
             return errorHandler(409, 'Email already in use');
         }

@@ -27,7 +27,7 @@ const auth = {
         return responseHandler(res, { message: "You have been successfully logged out" },
             next, 200, 'Youhave been successfully logged out', 0);
     },
-    
+
     verifyToken(req, res, next) {
         const access = req.headers.authorization;
         let token;
@@ -77,7 +77,6 @@ const auth = {
     },
 
     hashPassword: async (password) => {
-        console.log(`${iterations, hashBytes, saltBytes}`)
         const salt = crypto.randomBytes(saltBytes).toString('hex');
         const hash = crypto.pbkdf2Sync(password, salt, iterations, hashBytes, 'sha512').toString('hex');
         return [salt, hash].join('$');

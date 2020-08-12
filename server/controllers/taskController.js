@@ -36,7 +36,7 @@ class TaskController {
      * @param {*} next
      * @memberof TaskController
     */
-    static async getAllTasks(req, res, next) {
+    static async getAllTasks(req, res, next, msg=undefined) {
         try {
             const page = req.query.page && parseInt(req.query.page, 10) > 0 ? parseInt(req.query.page, 10) : 1;
             const limit = req.query.limit || 10;
@@ -50,8 +50,8 @@ class TaskController {
 
             const tasks = await Task.find({ createdBy: req.user._id }).skip(skip).limit(limit).lean();
             const pagination = { previousTasks, nextTasks };
-            console.log(pagination, skip)
-            return responseHandler(res, { tasks, pagination }, next, 200, 'Tasks retrieved successfully', tasks.length);
+            let message = msg || 'Tasks retrieved successfully'
+            return responseHandler(res, { tasks, pagination }, next, 200, message, tasks.length);
         } catch (error) {
             return next(error);
         }
@@ -120,7 +120,7 @@ class TaskController {
             if (!task) {
                 return errorHandler(404, 'Task not found');
             }
-            return responseHandler(res, null, next, 204, 'Task deleted sucessfully', 1);
+            return TaskController.getAllTasks(req, res, next, 'Task deleted successfully');
         } catch (error) {
             return next(error);
         }

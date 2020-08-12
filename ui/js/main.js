@@ -23,7 +23,6 @@ const onSuccess = async (res) => {
     if (res.ok) {
         return res.status === 204 ? { status: 204, message: "Deleted successfully!" } : res.json()
             .then(response => {
-                console.log(response);
                 showMsg(success, `Success: ${response.message}!`)
                 return response;
             })
@@ -58,7 +57,6 @@ const requestHandler = (method = 'GET', url, body = undefined) => {
     }
 
     const request = new Request(url, options)
-    console.log(request);
     return fetch(request)
         .then(onSuccess)
         .catch(onError);
@@ -66,6 +64,7 @@ const requestHandler = (method = 'GET', url, body = undefined) => {
 
 function displayItems(items) {
     if (items && items.length > 0) {
+        tbody.innerHTML = '';
         // document.querySelector('#no-item').classList.add('no-item');
         items.forEach(item => {
             updateDisplay(item);
@@ -228,7 +227,6 @@ async function loadTasks(page = null) {
 
 async function update() {
     try {
-        console.log(tbody.childElementCount);
         let data = { task: taskForm.task.value };
         let flag = isEmpty(data);
         if (!taskForm.task.dataset.task) {
@@ -251,7 +249,7 @@ async function update() {
             const msg = 'Provide data!'
             showMsg(failure, msg);
         }
-       
+
         return;
     } catch (error) {
         spinner()
@@ -264,12 +262,16 @@ async function update() {
 async function deleteItem(task, id) {
     try {
         if (window.confirm('Item will be permannently deleted from database')) {
+            tbody.removeChild(task);
             spinner()
-            const url = `${baseURL}/tasks/${id}`;
+            const url = `${baseURL}/tasks/${id}?page=${table.dataset.page}`;
             const response = await requestHandler('DELETE', url);
-            if (response.status === 204) {
-                tbody.removeChild(task);
-                showMsg(success, `Success: ${response.message}`);
+            if (response && response.data) {
+                const { previousTasks, nextTasks } = response.data.pagination;
+                previousTasks === true ? previous.classList.remove('none') : previous.classList.add('none');
+                nextTasks === true ? nxt.classList.remove('none') : nxt.classList.add('none');
+                displayItems(response.data.tasks)
+
             }
             spinner();
         }
@@ -295,6 +297,9 @@ async function deleteAllItems() {
                     tbody.removeChild(tbody.firstChild)
                 }
                 showMsg(success, `Success: Deleted successfully!`);
+                previous.classList.add('none');
+                nxt.classList.add('none');
+                table.dataset.page='1';
             }
             spinner();
         }
