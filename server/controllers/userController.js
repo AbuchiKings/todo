@@ -5,6 +5,10 @@ const responseHandler = require('../utils/responseHandler');
 
 exports.register = async (req, res, next) => {
     try {
+        const oldUser = await User.find({email: req.body.email.toLowerCase()});
+        if(oldUser){
+            return errorHandler(409, 'Email already in use');
+        }
         const user = await User.create({ ...req.body, registeredOn: Date() });
         return responseHandler(res, user, next, 201, 'You have been successfully registered');
     } catch (error) {
